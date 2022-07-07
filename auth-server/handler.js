@@ -88,7 +88,7 @@ module.exports.getCalenderEvents = async (event) => {
   oAuth2Client.setCredentials({ access_token });
 
   return new Promise((resolve, reject) => {
-    this.getCalenderEvents.events.list(
+    calendar.events.list(
       {
         calenderId: calendar_id,
         auth: oAuth2Client,
@@ -104,12 +104,6 @@ module.exports.getCalenderEvents = async (event) => {
         }
       }
     );
-    oAuth2Client.getToken(access_token, (err, token) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(token);
-    });
   })
     .then((results) => {
       // Respond with OAuth token 
@@ -118,12 +112,14 @@ module.exports.getCalenderEvents = async (event) => {
         body: JSON.stringify({ events: results.data.items }),
       };
     })
-    .catch((err) => {
+    .catch((error) => {
       // Handle error
-      console.error(err);
       return {
         statusCode: 500,
-        body: JSON.stringify(err),
+        headers: {
+          'Access-Central-Allow-Origin': '*',
+        },
+        body: JSON.stringify(error),
       };
     });
 }
