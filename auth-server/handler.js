@@ -111,22 +111,25 @@ module.exports.getCalenderEvents = async (event) => {
       }
     );
   })
-    .then((results) => {
+    .then(results => {
       // Respond with OAuth token 
       return {
         statusCode: 200,
+        header: {
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify({ events: results.data.items }),
       };
     })
-    .catch((err) => {
+    .catch(error => {
       // Handle error
-      console.error(err);
+      console.error(error);
       return {
         statusCode: 500,
         headers: {
           "Access-Control-Allow-Origin": "*",
         },
-        body: JSON.stringify(err),
+        body: JSON.stringify(error),
       };
     });
 }
