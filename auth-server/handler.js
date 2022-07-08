@@ -46,7 +46,7 @@ module.exports.getAccessToken = async (event) => {
     client_id,
     client_secret,
     redirect_uris[0]
-  );
+  )
 
   const code = decodeURIComponent(`${event.pathParameters.code}`);
 
@@ -74,6 +74,9 @@ module.exports.getAccessToken = async (event) => {
       console.error(err);
       return {
         statusCode: 500,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify(err),
       };
     });
@@ -112,9 +115,6 @@ module.exports.getCalenderEvents = async (event) => {
       // Respond with OAuth token 
       return {
         statusCode: 200,
-        headers: {
-          "Access-Central-Allow-Origin": "*",
-        },
         body: JSON.stringify({ events: results.data.items }),
       };
     })
@@ -123,6 +123,9 @@ module.exports.getCalenderEvents = async (event) => {
       console.error(err);
       return {
         statusCode: 500,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
         body: JSON.stringify(err),
       };
     });
