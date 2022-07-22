@@ -1,34 +1,52 @@
 import React, { Component } from 'react';
 
 class NumberOfEvents extends Component {
+
     state = {
-        numberOfEvents: 32,
+        numberOfEvents: 32
     };
 
     handleInputChanged = (event) => {
-        const { value } = event.target;
-        if (!isNaN(value) && value >= 0 && value <= 32) {
-            this.setState({ numberOfEvents: value, ErrorText: '' });
+        let actValue = parseInt(event.target.value)
+        if ((actValue > 0) && (actValue <= 32)) {
+            this.setState({
+                numberOfEvents: actValue,
+                errorText: ''
+            });
+        } else if ((actValue > 32) || (actValue < 1)) {
+            this.setState({
+                numberOfEvents: 32,
+                errorText: 'Please choose a number between 1 and 32.'
+            });
+            actValue = 32;
         } else {
-            this.setState({ ErrorText: 'Please select a number from 1 to 32.' });
+            this.setState({
+                numberOfEvents: NaN,
+                errorText: ''
+            });
+            actValue = 1;
         }
-        this.props.updateEvents(undefined, value);
+        this.props.updateEvents(undefined, actValue);
     };
+
 
     render() {
         return (
             <div className="numberOfEvents">
-                <label htmlFor="events-number">Number of Events: </label>
-                <br />
+                <label htmlFor="number-of-events">Show max: </label>
+
                 <input
-                    type="text"
-                    id="events-number"
-                    autoComplete="off"
+                    type="number"
+                    className="number-of-events"
+                    min="1"
+                    max="32"
                     value={this.state.numberOfEvents}
                     onChange={this.handleInputChanged}
+
                 />
             </div>
         );
     }
 }
-export default NumberOfEvents;
+
+export default NumberOfEvents; 
