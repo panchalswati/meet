@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ErrorAlert } from './Alert';
 
 class NumberOfEvents extends Component {
 
@@ -32,18 +33,23 @@ class NumberOfEvents extends Component {
 
     render() {
         return (
-            <div className="numberOfEvents">
-                <label htmlFor="number-of-events">Show max: </label>
+            <div>
+                <div className="numberOfEvents">
+                    <label htmlFor="number-of-events">Show max: </label>
 
-                <input
-                    type="number"
-                    className="number-of-events"
-                    min="1"
-                    max="32"
-                    value={this.state.numberOfEvents}
-                    onChange={this.handleInputChanged}
+                    <input
+                        type="number"
+                        className="number-of-events"
+                        min="1"
+                        max="32"
+                        value={this.state.numberOfEvents}
+                        onChange={this.handleInputChanged}
 
-                />
+                    />
+                </div>
+                <div className="errorAlert">
+                    <ErrorAlert text={this.state.errorText} />
+                </div>
             </div>
         );
     }
