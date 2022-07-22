@@ -4,11 +4,15 @@ import Event from '../Event';
 import { mockData } from '../mock-data';
 
 describe('<Event /> component', () => {
+
     let EventWrapper;
+    // run tests on first mockData element
     beforeAll(() => {
         EventWrapper = shallow(<Event event={mockData[0]} />);
     });
 
+    /* Show/Hide an event's details
+    Scenario 1:An event element is collapsed by default.*/
     test('render event', () => {
         expect(EventWrapper.find('.event')).toHaveLength(1);
     });
@@ -26,59 +30,25 @@ describe('<Event /> component', () => {
     });
 
     test('render button for details', () => {
-        expect(EventWrapper.find('.btn-details')).toHaveLength(1);
+        expect(EventWrapper.find('.btn-toggle-details')).toHaveLength(1);
     });
 
     test('event is collapsed by default', () => {
         expect(EventWrapper.state('collapsed')).toBe(true);
     });
 
+
+    /* scenario 2:User can expand an event to see its details.*/
     test('expand event details on click', () => {
         EventWrapper.setState({ collapsed: true });
-        EventWrapper.find('.btn-details').simulate('click');
+        EventWrapper.find('.btn-toggle-details').simulate('click');
         expect(EventWrapper.state('collapsed')).toBe(false);
     });
 
+    /*scenario 3:User can collapse an event to hide its details.*/
     test('collapse event details on click', () => {
         EventWrapper.setState({ collapsed: false });
-        EventWrapper.find('.btn-details').simulate('click');
+        EventWrapper.find('.btn-toggle-details').simulate('click');
         expect(EventWrapper.state('collapsed')).toBe(true);
     });
-
-    test('show correct event title', () => {
-        expect(EventWrapper.find('.title').text()).toEqual(mockData[0].summary);
-    });
-
-    test('show correct start-time', () => {
-        const mockDataDateFormat = `${new Date(mockData[0].start.dateTime)}`;
-        expect(EventWrapper.find('.start-time').text()).toEqual(
-            `${mockDataDateFormat}`
-        );
-    });
-
-    test('show correct event location', () => {
-        expect(EventWrapper.find('.location').text()).toEqual(mockData[0].location);
-    });
-
-    test('show event details if expanded', () => {
-        EventWrapper.setState({ collapsed: false });
-        expect(EventWrapper.find('.event-details').text()).toEqual(
-            mockData[0].description
-        );
-    });
-
-    test('show no event details if collapsed', () => {
-        EventWrapper.setState({ collapsed: true });
-        expect(EventWrapper.find('.event-details')).toHaveLength(0);
-    });
-
-    test('if event detail is collapsed name btn "show details"', () => {
-        EventWrapper.setState({ collapsed: true });
-        expect(EventWrapper.find('.btn-details').text()).toEqual('show details');
-    });
-
-    test('if event detail is expanded name btn "hide details"', () => {
-        EventWrapper.setState({ collapsed: false });
-        expect(EventWrapper.find('.btn-details').text()).toEqual('hide details');
-    });
-});
+}); 
