@@ -22,8 +22,7 @@ class CitySearch extends Component {
         } else {
             return this.setState({
                 query: value,
-                suggestions: [],
-                showSuggestons: false,
+                suggestions,
                 infoText: ''
             });
         }
@@ -33,6 +32,7 @@ class CitySearch extends Component {
         this.setState({
             query: suggestion,
             showSuggestions: false,
+            infoText: ''
         });
 
         this.props.updateEvents(suggestion);
